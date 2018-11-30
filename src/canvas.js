@@ -6,6 +6,12 @@ export default class Canvas {
         this.context = this.el.getContext("2d");
     }
 
+    clear(color = "white") {
+        this.context.beginPath();
+        this.context.fillStyle = color;
+        this.context.fillRect(0, 0, this.el.width, this.el.height);
+    }
+
     drawImage(image, offset = [ 0, 0 ]) {
         this.context.drawImage(image, offset[0], offset[1]);
     }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf8">
+        <title></title>
+        <script>
+            (async function() {
+                const Canvas = (await import("../src/canvas.js")).default;
+                const Brush = (await import("../src/brush.js")).default;
+
+                let c = new Canvas({
+                    height: window.innerHeight,
+                    width: window.innerWidth
+                });
+
+                document.body.appendChild(c.el);
+
+                let brush = new Brush({
+                    canvas: c,
+                    color: "#0000FF"
+                });
+            })();
+        </script>
+    </head>
+    <body></body>
+</html>

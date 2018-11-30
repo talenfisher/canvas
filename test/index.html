@@ -3,6 +3,11 @@
     <head>
         <meta charset="utf8">
         <title></title>
+
+        <style>
+            * { padding: 0; margin: 0; }
+        </style>
+
         <script>
             (async function() {
                 const Canvas = (await import("../src/canvas.js")).default;
@@ -12,6 +17,8 @@
                     height: window.innerHeight,
                     width: window.innerWidth
                 });
+
+                c.clear("black");
 
                 document.body.appendChild(c.el);
 

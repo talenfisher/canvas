@@ -3,13 +3,24 @@ export default class Canvas {
         this.el = document.createElement("canvas");
         this.el.height = options.height;
         this.el.width = options.width;
+
         this.context = this.el.getContext("2d");
     }
 
     clear(color = "white") {
-        this.context.beginPath();
-        this.context.fillStyle = color;
-        this.context.fillRect(0, 0, this.el.width, this.el.height);
+        this.drawRect({
+            x:      0,
+            y:      0,
+            width:  this.el.width,
+            height: this.el.height,
+            color:  color
+        });
+    }
+
+    drawRect({ x, y, width, height, color }) {
+        let context = this.context;
+        context.fillStyle = color;
+        context.fillRect(x, y, width, height);
     }
 
     drawImage(image, offset = [ 0, 0 ]) {

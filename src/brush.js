@@ -2,7 +2,7 @@ export default class Brush {
     constructor({ canvas, color, size, nolisteners }) {
         this._canvas = canvas;
         this._ctx = canvas.context;
-        this._active = false;
+        this.active = false;
 
         this.color = color || "red";
         this.size = size || 5;
@@ -15,8 +15,8 @@ export default class Brush {
     }
 
     begin(e) {
-        if(this._active) return;
-        this._active = true;
+        if(this.active) return;
+        this.active = true;
 
         let context = this._ctx;
         context.lineWidth = this.size;
@@ -31,15 +31,20 @@ export default class Brush {
     }
 
     move(e) {
-        if(!this._active) return;
-        this._ctx.lineTo(e.clientX, e.clientY);
-        this._ctx.stroke();
+        if(!this.active) return;
+        
+        let context = this._ctx;
+        context.lineTo(e.clientX, e.clientY);
+        context.stroke();
     }
 
     end(e) {
-        if(!this._active) return;
-        this._active = false;
-        this._ctx.lineTo(e.clientX, e.clientY);
-        this._ctx.stroke();
+        if(!this.active) return;
+
+        let context = this._ctx;
+        context.lineTo(e.clientX, e.clientY);
+        context.stroke();
+
+        this.active = false;
     }
 }

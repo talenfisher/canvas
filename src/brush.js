@@ -1,11 +1,12 @@
 export default class Brush {
-    constructor({ canvas, color, size, nolisteners }) {
+    constructor({ canvas, color, size, nolisteners, ...options }) {
         this._canvas = canvas;
         this._ctx = canvas.context;
         this.active = false;
 
         this.color = color || "red";
         this.size = size || 5;
+        this.capStyle = options.capStyle || "round";
 
         if(!nolisteners) {
             this._canvas.el.addEventListener("mousedown", this.begin.bind(this));
@@ -21,7 +22,7 @@ export default class Brush {
         let context = this._ctx;
         context.lineWidth = this.size;
         context.strokeStyle = this.color;
-        context.lineCap = "round";
+        context.lineCap = this.capStyle;
 
         context.beginPath();
         context.moveTo(e.clientX, e.clientY);

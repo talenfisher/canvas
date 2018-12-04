@@ -15,15 +15,18 @@ export default class Brush {
     }
 
     begin(e) {
+        if(this._active) return;
         this._active = true;
-        this._ctx.lineWidth = this.size;
-        this._ctx.strokeStyle = this.color;
-        this._ctx.lineCap = "round";
 
-        this._ctx.beginPath();
-        this._ctx.moveTo(e.clientX, e.clientY);
-        this._ctx.lineTo(e.clientX, e.clientY);
-        this._ctx.stroke();
+        let context = this._ctx;
+        context.lineWidth = this.size;
+        context.strokeStyle = this.color;
+        context.lineCap = "round";
+
+        context.beginPath();
+        context.moveTo(e.clientX, e.clientY);
+        context.lineTo(e.clientX, e.clientY);
+        context.stroke();
 
     }
 

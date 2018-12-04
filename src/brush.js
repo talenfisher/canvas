@@ -15,7 +15,6 @@ export default class Brush {
     }
 
     begin(e) {
-        console.log("begin");
         this._active = true;
         this._ctx.lineWidth = this.size;
         this._ctx.strokeStyle = this.color;

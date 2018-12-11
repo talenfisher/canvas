@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - '10'
+
+script:
+  - npm run build
+
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: tqfisher@iastate.edu
+  api_key: $NPM_TOKEN
+  on:
+    tags: true

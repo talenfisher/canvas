@@ -8,26 +8,7 @@
             * { padding: 0; margin: 0; }
         </style>
 
-        <script>
-            (async function() {
-                const Canvas = (await import("../src/canvas.js")).default;
-                const Brush = (await import("../src/brush.js")).default;
-
-                let c = new Canvas({
-                    height: window.innerHeight,
-                    width: window.innerWidth
-                });
-
-                c.clear("red");
-
-                document.body.appendChild(c.el);
-
-                let brush = new Brush({
-                    canvas: c,
-                    color: "#0000FF"
-                });
-            })();
-        </script>
+        <script src="./main.mjs" defer type="module"></script>
     </head>
     <body></body>
 </html>

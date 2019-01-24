@@ -11,6 +11,6 @@ document.body.appendChild(c.el);
 
 let brush = new Brush({
     canvas: c,
-    color: "white"
+    color: "white",
+    fillPolygons: true,
 });
- 

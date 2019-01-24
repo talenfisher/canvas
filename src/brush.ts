@@ -5,7 +5,8 @@ export interface BrushParameter {
     color?: string,
     size?: number,
     nolisteners: boolean,
-    capStyle?: string
+    capStyle?: string,
+    fillPolygons?: boolean;
 }
 
 export default class Brush {
@@ -15,6 +16,7 @@ export default class Brush {
     public color: string = "red";
     public size: number = 5;
     public capStyle: string = "round";
+    public fillPolygons: boolean = true;
 
     constructor(options: BrushParameter) {
         this.canvas = options.canvas;
@@ -23,6 +25,7 @@ export default class Brush {
         if(options.color) this.color = options.color;
         if(options.size) this.size = options.size;
         if(options.capStyle) this.capStyle = options.capStyle; 
+        if(options.fillPolygons) this.fillPolygons = options.fillPolygons;
         if(!options.nolisteners) this.setupListeners();
     }
 
@@ -40,6 +43,7 @@ export default class Brush {
         let context = this.context;
         context.lineWidth = this.size;
         context.strokeStyle = this.color;
+        context.fillStyle = this.color;
 
         //@ts-ignore
         context.lineCap = this.capStyle;
@@ -64,6 +68,9 @@ export default class Brush {
         let context = this.context;
         context.lineTo(x, y);
         context.stroke();
+
+        context.closePath();
+        if(this.fillPolygons) context.fill();
 
         this.active = false;
         this.canvas.save();

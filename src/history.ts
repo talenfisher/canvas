@@ -1,5 +1,4 @@
 import Canvas from "./canvas.js";
-import Region from "./region.js";
 
 export interface HistoryParameter {
     canvas: Canvas,
@@ -77,7 +76,7 @@ export default class History {
     restore(index: number) {
         if(!this.enabled) return;
 
-        if(index < 0 || this.stack.length < index) {
+        if(index < 0 || this.stack.length < index || !this.stack[index]) {
             throw `History at index ${index} does not exist`;
         }
 

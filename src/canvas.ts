@@ -1,5 +1,6 @@
 import History from "./history.js";
 import Region from "./region.js";
+import Filter from "./filter.js";
 
 const HISTORY_DEFAULTS = {
     size: 8,
@@ -33,9 +34,11 @@ export default class Canvas {
         this.el.height = options.height;
         this.el.width = options.width;
         
-        let context = this.el.getContext("2d");
+        let context = this.el.getContext("2d", { alpha: false });
         if(context === null) throw `Failed to get the CanvasRenderingContext2D`;
+
         this.context = context;
+        this.context.imageSmoothingEnabled = false;
 
         let historyOptions = Object.assign(HISTORY_DEFAULTS, options.history);
         this.history = new History({ 
@@ -43,6 +46,12 @@ export default class Canvas {
             size: historyOptions.size,
             enabled: historyOptions.enabled
         });
+    }
+
+    private createFilter() {
+        let svg = document.createElement("svg");
+        svg.innerHTML = Filter;
+        return svg;
     }
 
     /**
@@ -157,6 +166,34 @@ export default class Canvas {
         this.history.maxSize = value;
     }
 
+    /**
+     * Utility for extracting colors
+     */
+    getColors() {
+        let unique: Array<string> = [];
+        let image = this.getImageData();
+        let size = ((image.height * image.width) * 4) - 4;
+        let data = image.data;
+        
+        for(let i = 0; i < size; i += 4)
+         {
+            let r = data[i];
+            let g = data[i + 1];
+            let b = data[i + 2];
+            let a = data[i + 3];
+
+            let hex = "#" + ("000000" + ((r << 16) | (g << 8) | b).toString(16)).slice(-6);
+            hex += a.toString(16);
+        
+            if(!unique.includes(hex)) unique.push(hex);
+        }
+
+        return unique;
+    }
+
+    private padHex(hex: string) {
+        return hex.length === 1 ? "0" + hex : hex;
+    }
 
     /**
      * Undo the last action
@@ -180,6 +217,24 @@ export default class Canvas {
     }
 
     /**
+     * Clamp an x coordinate to the canvas' dimensions
+     */
+    clampX(x: number): number {
+        x = Math.max(0, x);
+        x = Math.min(x, this.el.width);
+        return x;
+    }
+
+    /**
+     * Clamp a y coordinate to the canvas' dimensions
+     */
+    clampY(y: number): number {
+        y = Math.max(0, y);
+        y = Math.min(y, this.el.height);
+        return y;
+    }
+
+    /**
      * Create a new canvas from an image, using the image's natural width and height 
      * as the canvas' width and height.
      * 
@@ -199,6 +254,7 @@ export default class Canvas {
 export interface CanvasParameter {
     width: number
     height: number,
+    smoothing?: boolean,
     history?: {
         size: number,
         enabled?: boolean

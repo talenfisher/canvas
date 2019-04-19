@@ -5,12 +5,18 @@ window.c = new Canvas({
     width: window.innerWidth
 });
 
-c.clear("black");
+c.clear("#000000");
 
 document.body.appendChild(c.el);
 
-let brush = new Brush({
+window.brush = new Brush({
     canvas: c,
-    color: "white",
-    fillPolygons: true,
+    color: "#ffffff",
 });
+
+
+let ctx = c.context;
+
+brush.fillPolygons = false;
+brush.begin(0,10);
+brush.end(800, 800);

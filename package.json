@@ -4,7 +4,7 @@
   "description": "A lightweight canvas library",
   "main": "dist/index.js",
   "scripts": {
-    "test": "http-server -c-2 -o",
+    "test": "http-server -c-2 -o --cors",
     "build": "tsc --build",
     "watch": "tsc --watch",
     "postversion": "git push --follow-tags"

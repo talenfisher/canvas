@@ -1,6 +1,5 @@
 import History from "./history.js";
 import Region from "./region.js";
-import Filter from "./filter.js";
 
 const HISTORY_DEFAULTS = {
     size: 8,
@@ -46,12 +45,6 @@ export default class Canvas {
             size: historyOptions.size,
             enabled: historyOptions.enabled
         });
-    }
-
-    private createFilter() {
-        let svg = document.createElement("svg");
-        svg.innerHTML = Filter;
-        return svg;
     }
 
     /**

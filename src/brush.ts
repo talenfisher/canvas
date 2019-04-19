@@ -14,9 +14,6 @@ export default class Brush {
     private context: CanvasRenderingContext2D;
     private queue: BrushQueue = new BrushQueue({ brush: this });
     private active: boolean = false;
-    private cx = 0;
-    private cy = 0;
-    private inMotion = false;
 
     public color: string;
     public size: number;

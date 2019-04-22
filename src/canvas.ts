@@ -175,13 +175,31 @@ export default class Canvas {
             let b = data[i + 2];
             let a = data[i + 3];
 
-            let hex = "#" + ("000000" + ((r << 16) | (g << 8) | b).toString(16)).slice(-6);
-            hex += a.toString(16);
-        
+            let hex = this.rgba2Hex(r, g, b, a);
             if(!unique.includes(hex)) unique.push(hex);
         }
 
         return unique;
+    }
+
+    getColorAt(x: number, y: number) {
+        let image = this.getImageData();
+        let data = image.data;
+        let location = (y + (x * image.width)) * 4;
+
+        let r = data[location];
+        let g = data[location + 1];
+        let b = data[location + 2];
+        let a = data[location + 3];
+        
+        let hex = this.rgba2Hex(r, g, b, a);
+        return hex;
+    }
+
+    private rgba2Hex(r: number, g: number, b: number, a: number) {
+        let result = "#" + ("000000" + ((r << 16) | (g << 8) | b).toString(16)).slice(-6);
+        result += a.toString(16);
+        return result;
     }
 
     private padHex(hex: string) {

@@ -16,7 +16,5 @@ window.brush = new Brush({
 
 
 let ctx = c.context;
-
-brush.fillPolygons = false;
-brush.begin(0,10);
-brush.end(800, 800);
+c.drawRect({ x: 800, y: 800, width: 6, height: 6, color: "#ffffff" });
+brush.fillPolygons = true;

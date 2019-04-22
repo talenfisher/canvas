@@ -1,5 +1,6 @@
 import Canvas from "./canvas.js";
 import BrushQueue from "./brush-queue.js";
+import BrushPolygon from "./brush-polygon.js";
 export interface BrushParameter {
     canvas: Canvas,
     color?: string,
@@ -8,11 +9,13 @@ export interface BrushParameter {
     capStyle?: string,
     fillPolygons?: boolean;
 }
+declare var window: any;
 
 export default class Brush {
     private canvas: Canvas;
     private context: CanvasRenderingContext2D;
     private queue: BrushQueue = new BrushQueue({ brush: this });
+    private polygon?: BrushPolygon;
     private active: boolean = false;
 
     public color: string;
@@ -96,20 +99,40 @@ export default class Brush {
 
     begin(x: number, y: number) {
         if(this.active) return;
-        this.active = true;
+        
         this.queue.push(x, y);
+        
+        if(this.fillPolygons) {
+            this.polygon = new BrushPolygon({ brush: this });
+            this.polygon.addPoint(x, y);
+        }
+
+        this.active = true;
     }
 
     move(x: number, y: number) {
         if(!this.active) return;
         this.queue.push(x, y);
+
+        if(this.fillPolygons && this.polygon) {
+            this.polygon.addPoint(x, y);
+        }
     }
 
     end(x: number, y: number) {
         if(!this.active) return;
         this.move(x, y);
         this.queue.reset();
+        window.p = this.polygon;
+        
+        if(this.fillPolygons && this.polygon) {
+            let poly = this.polygon;
+            requestAnimationFrame(() => poly.fill());
+        }
+
         this.active = false;
         this.canvas.save();
     }
+
+
 }

@@ -123,11 +123,10 @@ export default class Brush {
         if(!this.active) return;
         this.move(x, y);
         this.queue.reset();
-        window.p = this.polygon;
         
         if(this.fillPolygons && this.polygon) {
             let poly = this.polygon;
-            requestAnimationFrame(() => poly.fill());
+            poly.fill();
         }
 
         this.active = false;

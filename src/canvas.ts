@@ -185,7 +185,7 @@ export default class Canvas {
     getColorAt(x: number, y: number) {
         let image = this.getImageData();
         let data = image.data;
-        let location = (y + (x * image.width)) * 4;
+        let location = (x + (y * image.width)) * 4;
 
         let r = data[location];
         let g = data[location + 1];
